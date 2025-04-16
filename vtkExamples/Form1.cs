@@ -38,22 +38,45 @@ namespace vtkExamples
 
         public enum eExample {
             eReadPlainText = 0,
-            eDistanceBetweenPoints
+            eDistanceBetweenPoints,
+            eDistancePointToLine,
+            eGaussianRandomNumber,
+            ePerspectiveTransform,
+            eProjectPointPlane,
+            eRandomSequence,
+            eUniformRandomNumber
         };
 
         private void renderWindowControl1_Load(object sender, EventArgs e)
         {
             try
             {
-                eExample   ex = (eExample)1;
+                eExample   ex = (eExample)7;
                 switch (ex) {
                     case eExample.eReadPlainText:
                         clsReadPlainText.ReadPlainText(renderWindowControl);
                         break;
                     case eExample.eDistanceBetweenPoints:
-                        DistanceBetweenPoints();
+                        clsSimpleOperations.DistanceBetweenPoints();
                         break;
-
+                    case eExample.eDistancePointToLine:
+                        clsSimpleOperations.DistancePointToLine();
+                        break;
+                    case eExample.eGaussianRandomNumber:
+                        clsSimpleOperations.GaussianRandomNumber();
+                        break;
+                    case eExample.ePerspectiveTransform:
+                        clsSimpleOperations.PerspectiveTransform();
+                        break;
+                    case eExample.eProjectPointPlane:
+                        clsSimpleOperations.ProjectPointPlane();
+                        break;
+                    case eExample.eRandomSequence:
+                        clsSimpleOperations.RandomSequence();
+                        break;
+                    case eExample.eUniformRandomNumber:
+                        clsSimpleOperations.UniformRandomNumber();
+                        break;
                 }
 
                
@@ -62,31 +85,6 @@ namespace vtkExamples
             {
                 MessageBox.Show(ex.Message, "Exception", MessageBoxButtons.OK);
             }
-        }
-
-
-        private void DistanceBetweenPoints()
-        {
-            // Create two points.
-            double[] p0 = new double[] { 0.0, 0.0, 0.0 };
-            double[] p1 = new double[] { 1.0, 1.0, 1.0 };
-
-            IntPtr pP0 = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(double)) * 3);
-            IntPtr pP1 = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(double)) * 3);
-            Marshal.Copy(p0, 0, pP0, 3);
-            Marshal.Copy(p1, 0, pP1, 3);
-
-            // Find the squared distance between the points.
-            double squaredDistance = vtkMath.Distance2BetweenPoints(pP0, pP1);
-
-            // Take the square root to get the Euclidean distance between the points.
-            double distance = Math.Sqrt(squaredDistance);
-
-            // Output the results.
-            Console.WriteLine("SquaredDistance = " + squaredDistance);
-            Console.WriteLine("Distance = " + distance);
-            Marshal.FreeHGlobal(pP0);
-            Marshal.FreeHGlobal(pP1);
         }
 
     }
