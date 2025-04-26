@@ -47,14 +47,15 @@ namespace vtkExamples
             eUniformRandomNumber,
             eXGMLReader,
             eDEMReader,
-            eReadDICOMSeries
+            eReadDICOMSeries,
+            eReadPDB
         };
 
         private void renderWindowControl1_Load(object sender, EventArgs e)
         {
             try
             {
-                eExample   ex = eExample.eReadDICOMSeries;
+                eExample   ex = eExample.eReadPDB;
                 switch (ex) {
                     case eExample.eReadPlainText:
                         clsReadPlainText.ReadPlainText(renderWindowControl);
@@ -88,6 +89,9 @@ namespace vtkExamples
                         break;
                     case eExample.eReadDICOMSeries:
                         ReadDICOMSeries(renderWindowControl);
+                        break;
+                    case eExample.eReadPDB:
+                        clsReaders.ReadPDB(renderWindowControl);
                         break;
                 }
 
