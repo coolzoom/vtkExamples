@@ -223,7 +223,54 @@ namespace vtkExamples
             renderer.AddActor(actor);
         }
 
+        public static void ReadPLY(RenderWindowControl renderWindowControl1)
+        {
+            // Path to vtk data must be set as an environment variable
+            // VTK_DATA_ROOT = "C:\VTK\vtkdata-5.8.0"
+            vtkTesting test = vtkTesting.New();
+            string root = test.GetDataRoot();
+            string filePath = System.IO.Path.Combine(root, @"Data\bunny.ply");
+            vtkPLYReader reader = vtkPLYReader.New();
+            reader.SetFileName(filePath);
+            reader.Update();
+            vtkPolyDataMapper mapper = vtkPolyDataMapper.New();
+            mapper.SetInputConnection(reader.GetOutputPort());
 
+            vtkActor actor = vtkActor.New();
+            actor.SetMapper(mapper);
+            // get a reference to the renderwindow of our renderWindowControl1
+            vtkRenderWindow renderWindow = renderWindowControl1.RenderWindow;
+            // renderer
+            vtkRenderer renderer = renderWindow.GetRenderers().GetFirstRenderer();
+            // set background color
+            renderer.SetBackground(0.2, 0.3, 0.4);
+            // add our actor to the renderer
+            renderer.AddActor(actor);
+        }
 
+        public static void ReadSTL(RenderWindowControl renderWindowControl1)
+        {
+            // Path to vtk data must be set as an environment variable
+            // VTK_DATA_ROOT = "C:\VTK\vtkdata-5.8.0"
+            vtkTesting test = vtkTesting.New();
+            string root = test.GetDataRoot();
+            string filePath = System.IO.Path.Combine(root, @"Data\42400-IDGH.stl");
+            vtkSTLReader reader = vtkSTLReader.New();
+            reader.SetFileName(filePath);
+            reader.Update();
+            vtkPolyDataMapper mapper = vtkPolyDataMapper.New();
+            mapper.SetInputConnection(reader.GetOutputPort());
+
+            vtkActor actor = vtkActor.New();
+            actor.SetMapper(mapper);
+            // get a reference to the renderwindow of our renderWindowControl1
+            vtkRenderWindow renderWindow = renderWindowControl1.RenderWindow;
+            // renderer
+            vtkRenderer renderer = renderWindow.GetRenderers().GetFirstRenderer();
+            // set background color
+            renderer.SetBackground(0.2, 0.3, 0.4);
+            // add our actor to the renderer
+            renderer.AddActor(actor);
+        }
     }
 }
