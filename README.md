@@ -11,3 +11,5 @@ https://www.youtube.com/watch?v=CnKPDRMx5E4
 https://www.youtube.com/watch?v=mz9lo-tuHNw
 # ReadPDB
 https://www.youtube.com/watch?v=w2ypLGCDakU 
+# ReadPLOT3D
+https://www.youtube.com/watch?v=PuU0lTV1GsQ
