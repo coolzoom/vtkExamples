@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Globalization;
+using System.Windows.Forms;
 using System.IO;
 using System.Runtime.InteropServices;
 
@@ -73,5 +75,6 @@ namespace vtkExamples
             // add our actor to the renderer
             renderer.AddActor(actor);
         }
+
     }
 }
