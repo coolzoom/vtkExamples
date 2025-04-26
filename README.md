@@ -7,3 +7,5 @@ https://www.youtube.com/watch?v=YuknFK7KwcQ
 https://www.youtube.com/watch?v=wdQkFzQ1Pes
 # DEMReader
 https://www.youtube.com/watch?v=CnKPDRMx5E4
+# ReadDICOMSeries
+https://www.youtube.com/watch?v=mz9lo-tuHNw
