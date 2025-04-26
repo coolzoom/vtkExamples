@@ -63,4 +63,3 @@ D:\projects\csharp\VTKExample\vtkExamples\vtkExamples\obj\x64\Release\vtkExample
 D:\projects\csharp\VTKExample\vtkExamples\vtkExamples\obj\x64\Release\vtkExamples.csproj.CopyComplete
 D:\projects\csharp\VTKExample\vtkExamples\vtkExamples\obj\x64\Release\vtkExamples.exe
 D:\projects\csharp\VTKExample\vtkExamples\vtkExamples\obj\x64\Release\vtkExamples.pdb
-D:\projects\csharp\VTKExample\vtkExamples\vtkExamples\obj\x64\Release\vtkExamples.csprojAssemblyReference.cache

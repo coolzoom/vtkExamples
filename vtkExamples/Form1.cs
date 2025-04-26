@@ -45,14 +45,15 @@ namespace vtkExamples
             eProjectPointPlane,
             eRandomSequence,
             eUniformRandomNumber,
-            eXGMLReader
+            eXGMLReader,
+            eDEMReader
         };
 
         private void renderWindowControl1_Load(object sender, EventArgs e)
         {
             try
             {
-                eExample   ex = (eExample)8;
+                eExample   ex = eExample.eDEMReader;
                 switch (ex) {
                     case eExample.eReadPlainText:
                         clsReadPlainText.ReadPlainText(renderWindowControl);
@@ -79,7 +80,10 @@ namespace vtkExamples
                         clsSimpleOperations.UniformRandomNumber();
                         break;
                     case eExample.eXGMLReader:
-                       clsXGMLReader.XGMLReader(renderWindowControl);
+                        clsReaders.XGMLReader(renderWindowControl);
+                        break;
+                    case eExample.eDEMReader:
+                        clsReaders.ReadDEM(renderWindowControl);
                         break;
                 }
 

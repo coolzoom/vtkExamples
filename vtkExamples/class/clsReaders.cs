@@ -1,0 +1,77 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Diagnostics;
+using System.Globalization;
+using System.IO;
+using System.Runtime.InteropServices;
+
+using Kitware.VTK;
+
+namespace vtkExamples
+{
+    class clsReaders
+    {
+
+        public static void XGMLReader(RenderWindowControl renderWindowControl1)
+        {
+            // Path to vtk data must be set as an environment variable
+            // VTK_DATA_ROOT = "C:\VTK\vtkdata-5.8.0"
+            vtkTesting test = vtkTesting.New();
+            string root = test.GetDataRoot();
+            string filePath = System.IO.Path.Combine(root, @"Data\Infovis\fsm.gml");
+
+            vtkXGMLReader reader = vtkXGMLReader.New();
+            reader.SetFileName(filePath);
+            reader.Update();
+
+            vtkUndirectedGraph g = reader.GetOutput();
+
+            vtkGraphLayoutView graphLayoutView = vtkGraphLayoutView.New();
+            graphLayoutView.SetRenderWindow(renderWindowControl1.RenderWindow);
+            graphLayoutView.AddRepresentationFromInput(g);
+            graphLayoutView.SetLayoutStrategy("Simple 2D");
+            graphLayoutView.ResetCamera();
+            graphLayoutView.Render();
+        }
+
+        public static void ReadDEM(RenderWindowControl renderWindowControl1)
+        {
+            // Path to vtk data must be set as an environment variable
+            // VTK_DATA_ROOT = "C:\VTK\vtkdata-5.8.0"
+            vtkTesting test = vtkTesting.New();
+            string root = test.GetDataRoot();
+            string filePath = System.IO.Path.Combine(root, @"Data\SainteHelens.dem");
+
+            vtkDEMReader reader = vtkDEMReader.New();
+            reader.SetFileName(filePath);
+            reader.Update();
+
+            vtkLookupTable lut = vtkLookupTable.New();
+            lut.SetHueRange(0.6, 0);
+            lut.SetSaturationRange(1.0, 0);
+            lut.SetValueRange(0.5, 1.0);
+            double[] range = reader.GetOutput().GetScalarRange();
+            lut.SetTableRange(range[0], range[1]);
+
+            // Visualize
+            vtkImageMapToColors mapColors = vtkImageMapToColors.New();
+            mapColors.SetLookupTable(lut);
+            mapColors.SetInputConnection(reader.GetOutputPort());
+
+            // Create an actor
+            vtkImageActor actor = vtkImageActor.New();
+            actor.SetInput(mapColors.GetOutput());
+            // get a reference to the renderwindow of our renderWindowControl1
+            vtkRenderWindow renderWindow = renderWindowControl1.RenderWindow;
+            // renderer
+            vtkRenderer renderer = renderWindow.GetRenderers().GetFirstRenderer();
+            // set background color
+            renderer.SetBackground(0.2, 0.3, 0.4);
+            // add our actor to the renderer
+            renderer.AddActor(actor);
+        }
+    }
+}
