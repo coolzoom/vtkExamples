@@ -272,5 +272,55 @@ namespace vtkExamples
             // add our actor to the renderer
             renderer.AddActor(actor);
         }
+
+
+        public static void SimplePointsReader(RenderWindowControl renderWindowControl1)
+        {
+            // Path to vtk data must be set as an environment variable
+            // VTK_DATA_ROOT = "C:\VTK\vtkdata-5.8.0"
+            vtkTesting test = vtkTesting.New();
+            string root = test.GetDataRoot();
+            string filePath = System.IO.Path.Combine(root, @"Data\points.txt");
+
+            vtkSimplePointsReader reader = vtkSimplePointsReader.New();
+            reader.SetFileName(filePath);
+            reader.Update();
+            // Visualize
+            vtkPolyDataMapper mapper = vtkPolyDataMapper.New();
+            mapper.SetInputConnection(reader.GetOutputPort());
+            vtkActor actor = vtkActor.New();
+            actor.SetMapper(mapper);
+            actor.GetProperty().SetPointSize(4);
+            vtkRenderWindow renderWindow = renderWindowControl1.RenderWindow;
+            vtkRenderer renderer = renderWindow.GetRenderers().GetFirstRenderer();
+            renderer.SetBackground(0.2, 0.3, 0.4);
+            renderer.AddActor(actor);
+            //renderer.ResetCamera();
+        }
+
+        public static void VRML(RenderWindowControl renderWindowControl1)
+        {
+            // Path to vtk data must be set as an environment variable
+            // VTK_DATA_ROOT = "C:\VTK\vtkdata-5.8.0"
+            vtkTesting test = vtkTesting.New();
+            string root = test.GetDataRoot();
+            string filePath = System.IO.Path.Combine(root, @"Data\bot2.wrl");
+            // reader
+            vtkVRMLImporter importer = vtkVRMLImporter.New();
+            importer.SetFileName(filePath);
+            importer.Update();
+
+            // get a reference to the renderwindow of our renderWindowControl1
+            vtkRenderWindow renderWindow = renderWindowControl1.RenderWindow;
+            renderWindow.AddRenderer(importer.GetRenderer());
+            renderWindow.Render();
+
+            //vtkActorCollection actors = importer.GetRenderer().GetActors();
+            //actors.InitTraversal();
+            //vtkActor tmp;
+            //while(( tmp = actors.GetNextActor()) != null) {
+            //}
+        }
+
     }
 }

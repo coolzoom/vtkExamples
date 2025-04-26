@@ -51,14 +51,16 @@ namespace vtkExamples
             eReadPDB,
             eReadPLOT3D,
             eReadPLY,
-            eReadSTL
+            eReadSTL,
+            eSimplePointsReader,
+            eVRML
         };
 
         private void renderWindowControl1_Load(object sender, EventArgs e)
         {
             try
             {
-                eExample   ex = eExample.eReadSTL;
+                eExample   ex = eExample.eVRML;
                 switch (ex) {
                     case eExample.eReadPlainText:
                         clsReadPlainText.ReadPlainText(renderWindowControl);
@@ -104,6 +106,12 @@ namespace vtkExamples
                         break;
                     case eExample.eReadSTL:
                         clsReaders.ReadSTL(renderWindowControl);
+                        break;
+                    case eExample.eSimplePointsReader:
+                        clsReaders.SimplePointsReader(renderWindowControl);
+                        break;
+                    case eExample.eVRML:
+                        clsReaders.VRML(renderWindowControl);
                         break;
                 }
 
