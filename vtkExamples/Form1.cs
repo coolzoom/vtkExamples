@@ -48,14 +48,15 @@ namespace vtkExamples
             eXGMLReader,
             eDEMReader,
             eReadDICOMSeries,
-            eReadPDB
+            eReadPDB,
+            eReadPLOT3D
         };
 
         private void renderWindowControl1_Load(object sender, EventArgs e)
         {
             try
             {
-                eExample   ex = eExample.eReadPDB;
+                eExample   ex = eExample.eReadPLOT3D;
                 switch (ex) {
                     case eExample.eReadPlainText:
                         clsReadPlainText.ReadPlainText(renderWindowControl);
@@ -92,6 +93,9 @@ namespace vtkExamples
                         break;
                     case eExample.eReadPDB:
                         clsReaders.ReadPDB(renderWindowControl);
+                        break;
+                    case eExample.eReadPLOT3D:
+                        clsReaders.ReadPLOT3D(renderWindowControl);
                         break;
                 }
 
