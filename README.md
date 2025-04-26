@@ -1,6 +1,6 @@
 # vtkExamples
- vtk example based on CSharp and activiz package
- https://examples.vtk.org/site/CSharp/IO/ReadPlainText/ \
+ vtk example based on CSharp and activiz package \
+ https://examples.vtk.org/site/CSharp/IO/ReadPlainText/ 
 # ReadPlainText
 https://www.youtube.com/watch?v=YuknFK7KwcQ
 # XGMLReader
