@@ -17,3 +17,7 @@ https://www.youtube.com/watch?v=PuU0lTV1GsQ
 https://www.youtube.com/watch?v=Jrftde2ARaI
 # ReadSTL 
 https://www.youtube.com/watch?v=OfVAqafl4KI
+# SimplePointsReader
+https://www.youtube.com/watch?v=MGbeoa9EKjE
+# VRML
+https://www.youtube.com/watch?v=ipVzVLlwhzs
