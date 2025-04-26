@@ -13,3 +13,7 @@ https://www.youtube.com/watch?v=mz9lo-tuHNw
 https://www.youtube.com/watch?v=w2ypLGCDakU 
 # ReadPLOT3D
 https://www.youtube.com/watch?v=PuU0lTV1GsQ
+# ReadPLY
+https://www.youtube.com/watch?v=Jrftde2ARaI
+# ReadSTL 
+https://www.youtube.com/watch?v=OfVAqafl4KI
