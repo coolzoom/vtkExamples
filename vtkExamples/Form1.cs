@@ -53,14 +53,23 @@ namespace vtkExamples
             eReadPLY,
             eReadSTL,
             eSimplePointsReader,
-            eVRML
+            eVRML,
+            eParticleReader,
+            eReadImageData,
+            eReadOBJ,
+            eReadPlainText1,
+            eReadPolyData,
+            eReadRectilinearGrid,
+            eReadStructuredGrid,
+            eReadUnknownTypeXMLFile
+
         };
 
         private void renderWindowControl1_Load(object sender, EventArgs e)
         {
             try
             {
-                eExample   ex = eExample.eVRML;
+                eExample   ex = eExample.eReadUnknownTypeXMLFile;
                 switch (ex) {
                     case eExample.eReadPlainText:
                         clsReadPlainText.ReadPlainText(renderWindowControl);
@@ -112,6 +121,30 @@ namespace vtkExamples
                         break;
                     case eExample.eVRML:
                         clsReaders.VRML(renderWindowControl);
+                        break;
+                    case eExample.eParticleReader:
+                        clsVTKFormats.ParticleReader(renderWindowControl);
+                        break;
+                    case eExample.eReadImageData:
+                        clsVTKFormats.ReadImageData(renderWindowControl);
+                        break;
+                    case eExample.eReadOBJ:
+                        clsVTKFormats.ReadOBJ(renderWindowControl);
+                        break;
+                    case eExample.eReadPlainText1:
+                        clsVTKFormats.ReadPlainText(renderWindowControl);
+                        break;
+                    case eExample.eReadPolyData:
+                        clsVTKFormats.ReadPolyData(renderWindowControl);
+                        break;
+                    case eExample.eReadRectilinearGrid:
+                        clsVTKFormats.ReadRectilinearGrid(renderWindowControl);
+                        break;
+                    case eExample.eReadStructuredGrid:
+                        clsVTKFormats.ReadStructuredGrid(renderWindowControl);
+                        break;
+                    case eExample.eReadUnknownTypeXMLFile:
+                        clsVTKFormats.ReadUnknownTypeXMLFile(renderWindowControl);
                         break;
                 }
 
