@@ -65,7 +65,13 @@ namespace vtkExamples
             eWriteVTI,
             eWriteVTP,
             eWriteVTU,
-            eXMLStructuredGridWriter
+            eXMLStructuredGridWriter,
+            eImageReader2Factory,
+            eJPEGReader,
+            eMetaImageReader,
+            ePNGReader,
+            eReadBMP,
+            eReadTIFF
 
         };
 
@@ -73,7 +79,7 @@ namespace vtkExamples
         {
             try
             {
-                eExample   ex = eExample.eXMLStructuredGridWriter;
+                eExample   ex = eExample.eReadTIFF;
                 switch (ex) {
                     case eExample.eReadPlainText:
                         clsReadPlainText.ReadPlainText(renderWindowControl);
@@ -161,6 +167,24 @@ namespace vtkExamples
                         break;
                     case eExample.eXMLStructuredGridWriter:
                         clsVTKFormats.XMLStructuredGridWriter(renderWindowControl);
+                        break;
+                    case eExample.eImageReader2Factory:
+                        clsImageFormats.ImageReader2Factory(renderWindowControl);
+                        break;
+                    case eExample.eJPEGReader:
+                        clsImageFormats.ReadJPEG(renderWindowControl);
+                        break;
+                    case eExample.eMetaImageReader:
+                        clsImageFormats.ReadMetaImage(renderWindowControl);
+                        break;
+                    case eExample.ePNGReader:
+                        clsImageFormats.ReadPNG(renderWindowControl);
+                        break;
+                    case eExample.eReadBMP:
+                        clsImageFormats.ReadBMP(renderWindowControl);
+                        break;
+                    case eExample.eReadTIFF:
+                        clsImageFormats.ReadTIFF(renderWindowControl);
                         break;
                 }
 
