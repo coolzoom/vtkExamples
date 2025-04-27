@@ -1,7 +1,7 @@
 # vtkExamples
- vtk example based on CSharp and activiz package
+ vtk example based on CSharp and activiz package \
+ https://examples.vtk.org/site/CSharp/IO/ReadPlainText/ 
 # ReadPlainText
-https://examples.vtk.org/site/CSharp/IO/ReadPlainText/ \
 https://www.youtube.com/watch?v=YuknFK7KwcQ
 # XGMLReader
 https://www.youtube.com/watch?v=wdQkFzQ1Pes
@@ -17,3 +17,7 @@ https://www.youtube.com/watch?v=PuU0lTV1GsQ
 https://www.youtube.com/watch?v=Jrftde2ARaI
 # ReadSTL 
 https://www.youtube.com/watch?v=OfVAqafl4KI
+# SimplePointsReader
+https://www.youtube.com/watch?v=MGbeoa9EKjE
+# VRML
+https://www.youtube.com/watch?v=ipVzVLlwhzs
