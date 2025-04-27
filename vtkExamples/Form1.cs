@@ -61,7 +61,11 @@ namespace vtkExamples
             eReadPolyData,
             eReadRectilinearGrid,
             eReadStructuredGrid,
-            eReadUnknownTypeXMLFile
+            eReadUnknownTypeXMLFile,
+            eWriteVTI,
+            eWriteVTP,
+            eWriteVTU,
+            eXMLStructuredGridWriter
 
         };
 
@@ -69,7 +73,7 @@ namespace vtkExamples
         {
             try
             {
-                eExample   ex = eExample.eReadUnknownTypeXMLFile;
+                eExample   ex = eExample.eXMLStructuredGridWriter;
                 switch (ex) {
                     case eExample.eReadPlainText:
                         clsReadPlainText.ReadPlainText(renderWindowControl);
@@ -145,6 +149,18 @@ namespace vtkExamples
                         break;
                     case eExample.eReadUnknownTypeXMLFile:
                         clsVTKFormats.ReadUnknownTypeXMLFile(renderWindowControl);
+                        break;
+                    case eExample.eWriteVTI:
+                        clsVTKFormats.WriteVTI(renderWindowControl);
+                        break;
+                    case eExample.eWriteVTP:
+                        clsVTKFormats.WritePolyData(renderWindowControl);
+                        break;
+                    case eExample.eWriteVTU:
+                        clsVTKFormats.WriteVTUFile(renderWindowControl);
+                        break;
+                    case eExample.eXMLStructuredGridWriter:
+                        clsVTKFormats.XMLStructuredGridWriter(renderWindowControl);
                         break;
                 }
 
