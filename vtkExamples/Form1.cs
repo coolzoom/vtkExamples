@@ -71,7 +71,14 @@ namespace vtkExamples
             eMetaImageReader,
             ePNGReader,
             eReadBMP,
-            eReadTIFF
+            eReadTIFF,
+            eJPEGWriter,
+            eMetaImageWriter,
+            eWriteBMP,
+            eWritePNG,
+            eWriteTIFF,
+            eArrow,
+            eAxes
 
         };
 
@@ -79,7 +86,7 @@ namespace vtkExamples
         {
             try
             {
-                eExample   ex = eExample.eReadTIFF;
+                eExample   ex = eExample.eAxes;
                 switch (ex) {
                     case eExample.eReadPlainText:
                         clsReadPlainText.ReadPlainText(renderWindowControl);
@@ -185,6 +192,27 @@ namespace vtkExamples
                         break;
                     case eExample.eReadTIFF:
                         clsImageFormats.ReadTIFF(renderWindowControl);
+                        break;
+                    case eExample.eJPEGWriter:
+                        clsImageFormats.WriteJPEG(renderWindowControl);
+                        break;
+                    case eExample.eMetaImageWriter:
+                        clsImageFormats.WriteMetaImage(renderWindowControl);
+                        break;
+                    case eExample.eWriteBMP:
+                        clsImageFormats.WriteBMP(renderWindowControl);
+                        break;
+                    case eExample.eWritePNG:
+                        clsImageFormats.WritePNG(renderWindowControl);
+                        break;
+                    case eExample.eWriteTIFF:
+                        clsImageFormats.WriteTIFF(renderWindowControl);
+                        break;
+                    case eExample.eArrow:
+                        clsGeometricObjects.Arrow(renderWindowControl);
+                        break;
+                    case eExample.eAxes:
+                        clsGeometricObjects.Axes(renderWindowControl);
                         break;
                 }
 
