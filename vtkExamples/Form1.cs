@@ -105,7 +105,9 @@ namespace vtkExamples
             eTetrahedron,
             eTriangle,
             eTriangleStrip,
-            eVertex
+            eVertex,
+            eParametricObjects,
+            eParametricObjectsDemo
 
         };
 
@@ -113,7 +115,7 @@ namespace vtkExamples
         {
             try
             {
-                eExample   ex = eExample.eVertex;
+                eExample   ex = eExample.eParametricObjectsDemo;
                 switch (ex) {
                     case eExample.eReadPlainText:
                         clsReadPlainText.ReadPlainText(renderWindowControl);
@@ -321,6 +323,12 @@ namespace vtkExamples
                         break;
                     case eExample.eVertex:
                         clsGeometricObjects.Vertex(renderWindowControl);
+                        break;
+                    case eExample.eParametricObjects:
+                        ClsParametricObjects.ParametricObjects(renderWindowControl);
+                        break;
+                    case eExample.eParametricObjectsDemo:
+                        ClsParametricObjects.ParametricObjectsDemo(renderWindowControl);
                         break;
 
                 }

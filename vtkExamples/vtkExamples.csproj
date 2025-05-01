@@ -88,6 +88,7 @@
   <ItemGroup>
     <Compile Include="class\clsGeometricObjects.cs" />
     <Compile Include="class\clsImageFormats.cs" />
+    <Compile Include="class\ClsParametricObjects.cs" />
     <Compile Include="class\clsReadPlainText.cs" />
     <Compile Include="class\clsSimpleOperations.cs" />
     <Compile Include="class\clsReaders.cs" />
