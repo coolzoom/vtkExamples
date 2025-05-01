@@ -107,7 +107,18 @@ namespace vtkExamples
             eTriangleStrip,
             eVertex,
             eParametricObjects,
-            eParametricObjectsDemo
+            eParametricObjectsDemo,
+            eAlignFrames,
+            eContoursFromPolyData,
+            eFindAllArrayNames,
+            eImplicitBoolean,
+            eIterateOverLines,
+            eMultiBlockMergeFilter,
+            eNullPoint,
+            ePolyDataGetPoint,
+            eShrinkPolyData,
+            eVectorFieldNonZeroExtraction,
+            eWarpVector
 
         };
 
@@ -115,7 +126,7 @@ namespace vtkExamples
         {
             try
             {
-                eExample   ex = eExample.eParametricObjectsDemo;
+                eExample   ex = eExample.eWarpVector;
                 switch (ex) {
                     case eExample.eReadPlainText:
                         clsReadPlainText.ReadPlainText(renderWindowControl);
@@ -330,7 +341,39 @@ namespace vtkExamples
                     case eExample.eParametricObjectsDemo:
                         ClsParametricObjects.ParametricObjectsDemo(renderWindowControl);
                         break;
-
+                    case eExample.eAlignFrames:
+                        clsWorkingwith3DData.AlignFramesMain();
+                        break;
+                    case eExample.eContoursFromPolyData:
+                        clsWorkingwith3DData.ContoursFromPolyData(renderWindowControl);
+                        break;
+                    case eExample.eFindAllArrayNames:
+                        clsWorkingwith3DData.FindAllArrayNamesMain();
+                        break;
+                    case eExample.eImplicitBoolean:
+                        clsWorkingwith3DData.ImplicitBoolean(renderWindowControl);
+                        break;
+                    case eExample.eIterateOverLines:
+                        clsWorkingwith3DData.IterateOverLines();
+                        break;
+                    case eExample.eMultiBlockMergeFilter:
+                        clsWorkingwith3DData.MultiBlockMergeFilter();
+                        break;
+                    case eExample.eNullPoint:
+                        clsWorkingwith3DData.NullPoint();
+                        break;
+                    case eExample.ePolyDataGetPoint:
+                        clsWorkingwith3DData.PolyDataGetPoint();
+                        break;
+                    case eExample.eShrinkPolyData:
+                        clsWorkingwith3DData.ShrinkPolyData(renderWindowControl);
+                        break;
+                    case eExample.eVectorFieldNonZeroExtraction:
+                        clsWorkingwith3DData.VectorFieldNonZeroExtraction(renderWindowControl);
+                        break;
+                    case eExample.eWarpVector:
+                        clsWorkingwith3DData.WarpVector(renderWindowControl);
+                        break;
                 }
 
                

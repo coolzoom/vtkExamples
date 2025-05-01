@@ -93,6 +93,7 @@
     <Compile Include="class\clsSimpleOperations.cs" />
     <Compile Include="class\clsReaders.cs" />
     <Compile Include="class\clsVTKFormats.cs" />
+    <Compile Include="class\clsWorkingwith3DData.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
