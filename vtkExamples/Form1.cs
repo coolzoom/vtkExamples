@@ -78,7 +78,34 @@ namespace vtkExamples
             eWritePNG,
             eWriteTIFF,
             eArrow,
-            eAxes
+            eAxes,
+            eColoredLines,
+            eCone,
+            eCube,
+            eCylinder,
+            eDisk,
+            eFrustum,
+            eGeometricObjectsDemo,
+            eHexahedron,
+            eLine,
+            eLongLine,
+            eOrientedArrow,
+            ePlane,
+            ePlanes,
+            ePlanesIntersection,
+            ePlatonicSolid,
+            ePoint,
+            ePolyLine,
+            ePolygon,
+            ePolygonIntersection,
+            ePyramid,
+            eQuad,
+            eRegularPolygonSource,
+            eSphere,
+            eTetrahedron,
+            eTriangle,
+            eTriangleStrip,
+            eVertex
 
         };
 
@@ -86,7 +113,7 @@ namespace vtkExamples
         {
             try
             {
-                eExample   ex = eExample.eAxes;
+                eExample   ex = eExample.eVertex;
                 switch (ex) {
                     case eExample.eReadPlainText:
                         clsReadPlainText.ReadPlainText(renderWindowControl);
@@ -214,6 +241,88 @@ namespace vtkExamples
                     case eExample.eAxes:
                         clsGeometricObjects.Axes(renderWindowControl);
                         break;
+                    case eExample.eColoredLines:
+                        clsGeometricObjects.ColoredLines(renderWindowControl);
+                        break;
+                    case eExample.eCone:
+                        clsGeometricObjects.Cone(renderWindowControl);
+                        break;
+                    case eExample.eCube:
+                        clsGeometricObjects.Cube(renderWindowControl);
+                        break;
+                    case eExample.eCylinder:
+                        clsGeometricObjects.Cylinder(renderWindowControl);
+                        break;
+                    case eExample.eDisk:
+                        clsGeometricObjects.Disk(renderWindowControl);
+                        break;
+                    case eExample.eFrustum:
+                        clsGeometricObjects.Frustum(renderWindowControl);
+                        break;
+                    case eExample.eGeometricObjectsDemo:
+                        clsGeometricObjects.GeometricObjectsDemo(renderWindowControl);
+                        break;
+                    case eExample.eHexahedron:
+                        clsGeometricObjects.Hexahedron(renderWindowControl);
+                        break;
+                    case eExample.eLine:
+                        clsGeometricObjects.Line(renderWindowControl);
+                        break;
+                    case eExample.eLongLine:
+                        clsGeometricObjects.LongLine(renderWindowControl);
+                        break;
+                    case eExample.eOrientedArrow:
+                        clsGeometricObjects.OrientedArrow(renderWindowControl);
+                        break;
+                    case eExample.ePlane:
+                        clsGeometricObjects.Plane(renderWindowControl);
+                        break;
+                    case eExample.ePlanes:
+                        clsGeometricObjects.Planes(renderWindowControl);
+                        break;
+                    case eExample.ePlanesIntersection:
+                        clsGeometricObjects.PlanesIntersection(renderWindowControl);
+                        break;
+                    case eExample.ePlatonicSolid:
+                        clsGeometricObjects.PlatonicSolid(renderWindowControl);
+                        break;
+                    case eExample.ePoint:
+                        //clsGeometricObjects.Point(renderWindowControl);  // System.AccessViolationException
+                        break;
+                    case eExample.ePolyLine:
+                        clsGeometricObjects.PolyLine(renderWindowControl);
+                        break;
+                    case eExample.ePolygon:
+                        clsGeometricObjects.Polygon(renderWindowControl);
+                        break;
+                    case eExample.ePolygonIntersection:
+                        clsGeometricObjects.PolygonIntersection();
+                        break;
+                    case eExample.ePyramid:
+                        clsGeometricObjects.Pyramid(renderWindowControl);
+                        break;
+                    case eExample.eQuad:
+                        clsGeometricObjects.Quad(renderWindowControl);
+                        break;
+                    case eExample.eRegularPolygonSource:
+                        clsGeometricObjects.RegularPolygon(renderWindowControl);
+                        break;
+                    case eExample.eSphere:
+                        clsGeometricObjects.Sphere(renderWindowControl);
+                        break;
+                    case eExample.eTetrahedron:
+                        // clsGeometricObjects.Tetrahedron(renderWindowControl);  // System.AccessViolationException
+                        break;
+                    case eExample.eTriangle:
+                        clsGeometricObjects.Triangle(renderWindowControl);
+                        break;
+                    case eExample.eTriangleStrip:
+                        clsGeometricObjects.TriangleStrip(renderWindowControl);
+                        break;
+                    case eExample.eVertex:
+                        clsGeometricObjects.Vertex(renderWindowControl);
+                        break;
+
                 }
 
                
