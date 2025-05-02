@@ -118,7 +118,12 @@ namespace vtkExamples
             ePolyDataGetPoint,
             eShrinkPolyData,
             eVectorFieldNonZeroExtraction,
-            eWarpVector
+            eWarpVector,
+            eBoundaryEdges,
+            eCapClip,
+            eCellEdges,
+            eClosedSurface,
+            eColorDisconnectedRegions
 
         };
 
@@ -126,7 +131,7 @@ namespace vtkExamples
         {
             try
             {
-                eExample   ex = eExample.eWarpVector;
+                eExample   ex = eExample.eColorDisconnectedRegions;
                 switch (ex) {
                     case eExample.eReadPlainText:
                         clsReadPlainText.ReadPlainText(renderWindowControl);
@@ -373,6 +378,21 @@ namespace vtkExamples
                         break;
                     case eExample.eWarpVector:
                         clsWorkingwith3DData.WarpVector(renderWindowControl);
+                        break;
+                    case eExample.eBoundaryEdges:
+                        clsWorkingwithMeshes.BoundaryEdges(renderWindowControl);
+                        break;
+                    case eExample.eCapClip:
+                        clsWorkingwithMeshes.CapClip(renderWindowControl);
+                        break;
+                    case eExample.eCellEdges:
+                        clsWorkingwithMeshes.CellEdges();
+                        break;
+                    case eExample.eClosedSurface:
+                        clsWorkingwithMeshes.ClosedSurface();
+                        break;
+                    case eExample.eColorDisconnectedRegions:
+                        clsWorkingwithMeshes.ColorDisconnectedRegions(renderWindowControl);
                         break;
                 }
 
