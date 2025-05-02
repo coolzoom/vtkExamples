@@ -123,7 +123,30 @@ namespace vtkExamples
             eCapClip,
             eCellEdges,
             eClosedSurface,
-            eColorDisconnectedRegions
+            eColorDisconnectedRegions,
+            eColoredElevationMap,
+            eCurvature,
+            eDecimation,
+            eDijkstraGraphGeodesicPath,
+            eElevationFilter,
+            eExtractEdges,
+            eFillHoles,
+            eGreedyTerrainDecimation,
+            eHighLightBadCells,
+            evtkPolyDataConnectivityFilter_LargestRegion,
+            eMatrixMathFilter,
+            eOBBDicer,
+            ePolygonalSurfaceContourLineInterpolator,
+            eQuadricClustering,
+            eQuadricDecimation,
+            eSelectPolyData,
+            eSimpleElevationFilter,
+            eSolidClip,
+            evtkPolyDataConnectivityFilter_SpecifiedRegion,
+            eSubdivision,
+            eTriangulate,
+            eWeightedTransformFilter,
+            eWindowedSincPolyDataFilter
 
         };
 
@@ -131,7 +154,7 @@ namespace vtkExamples
         {
             try
             {
-                eExample   ex = eExample.eColorDisconnectedRegions;
+                eExample   ex = eExample.eWindowedSincPolyDataFilter;
                 switch (ex) {
                     case eExample.eReadPlainText:
                         clsReadPlainText.ReadPlainText(renderWindowControl);
@@ -393,6 +416,75 @@ namespace vtkExamples
                         break;
                     case eExample.eColorDisconnectedRegions:
                         clsWorkingwithMeshes.ColorDisconnectedRegions(renderWindowControl);
+                        break;
+                    case eExample.eColoredElevationMap:
+                        clsWorkingwithMeshes.ColoredElevationMap(renderWindowControl);
+                        break;
+                    case eExample.eCurvature:
+                        clsWorkingwithMeshes.Curvature(renderWindowControl);
+                        break;
+                    case eExample.eDecimation:
+                        clsWorkingwithMeshes.Decimation(renderWindowControl);
+                        break;
+                    case eExample.eDijkstraGraphGeodesicPath:
+                        clsWorkingwithMeshes.DijkstraGraphGeodesicPath(renderWindowControl);
+                        break;
+                    case eExample.eElevationFilter:
+                        clsWorkingwithMeshes.ElevationFilter(renderWindowControl);
+                        break;
+                    case eExample.eExtractEdges:
+                        clsWorkingwithMeshes.ExtractEdges(renderWindowControl);
+                        break;
+                    case eExample.eFillHoles:
+                        clsWorkingwithMeshes.FillHoles(renderWindowControl);
+                        break;
+                    case eExample.eGreedyTerrainDecimation:
+                        clsWorkingwithMeshes.GreedyTerrainDecimation(renderWindowControl);
+                        break;
+                    case eExample.eHighLightBadCells:
+                        clsWorkingwithMeshes.HighLightBadCells(renderWindowControl);
+                        break;
+                    case eExample.evtkPolyDataConnectivityFilter_LargestRegion:
+                        clsWorkingwithMeshes.vtkPolyDataConnectivityFilter_LargestRegion(renderWindowControl);
+                        break;
+                    case eExample.eMatrixMathFilter:
+                        clsWorkingwithMeshes.MatrixMathFilter(renderWindowControl);
+                        break;
+                    case eExample.eOBBDicer:
+                        clsWorkingwithMeshes.OBBDicer(renderWindowControl);
+                        break;
+                    case eExample.ePolygonalSurfaceContourLineInterpolator:
+                        clsWorkingwithMeshes.PolygonalSurfaceContourLineInterpolator(renderWindowControl);
+                        break;
+                    case eExample.eQuadricClustering:
+                        clsWorkingwithMeshes.QuadricClustering(renderWindowControl);
+                        break;
+                    case eExample.eQuadricDecimation:
+                        clsWorkingwithMeshes.QuadricDecimation(renderWindowControl);
+                        break;
+                    case eExample.eSelectPolyData:
+                        clsWorkingwithMeshes.SelectPolyData(renderWindowControl);
+                        break;
+                    case eExample.eSimpleElevationFilter:
+                        clsWorkingwithMeshes.SimpleElevationFilter(renderWindowControl);
+                        break;
+                    case eExample.eSolidClip:
+                        clsWorkingwithMeshes.SolidClip(renderWindowControl);
+                        break;
+                    case eExample.evtkPolyDataConnectivityFilter_SpecifiedRegion:
+                        clsWorkingwithMeshes.vtkPolyDataConnectivityFilter_SpecifiedRegion(renderWindowControl);
+                        break;
+                    case eExample.eSubdivision:
+                        clsWorkingwithMeshes.Subdivision(renderWindowControl);
+                        break;
+                    case eExample.eTriangulate:
+                        clsWorkingwithMeshes.Triangulate(renderWindowControl);
+                        break;
+                    case eExample.eWeightedTransformFilter:
+                        clsWorkingwithMeshes.WeightedTransformFilter(renderWindowControl);
+                        break;
+                    case eExample.eWindowedSincPolyDataFilter:
+                        clsWorkingwithMeshes.WindowedSincPolyDataFilter(renderWindowControl);
                         break;
                 }
 
