@@ -33,7 +33,25 @@ https://www.youtube.com/watch?v=Zez0VQsny_U
 https://www.youtube.com/watch?v=KR5JYifOsY8
 # VectorFieldNonZeroExtraction
 https://www.youtube.com/watch?v=0Vx58cDCzkk
-
-
-
-
+# BoundaryEdges, blue Color
+https://www.youtube.com/watch?v=2WpfVhaRZEA
+# ColorDisconnectedRegions 
+https://www.youtube.com/watch?v=UQGkgG362Lg
+# Curvature
+https://www.youtube.com/watch?v=JB38uDkgQ18
+# ExtractEdges
+https://www.youtube.com/watch?v=KG83hDxB_d4
+# MatrixMathFilter
+https://www.youtube.com/watch?v=-Vj1DAzk3-U
+# OBBDicer
+https://www.youtube.com/watch?v=JY4EjHXsel0
+# PolygonalSurfaceContourLineInterpolator
+https://www.youtube.com/watch?v=sBxcHIQr0t4
+# SelectPolyData
+https://www.youtube.com/watch?v=vzhxUm2dNFg
+# SimpleElevationFilter
+https://www.youtube.com/watch?v=Gg5iiOAPCFM
+# SolidClip
+https://www.youtube.com/watch?v=Zw63EM5h3yM
+# Subdivision
+https://www.youtube.com/watch?v=SzI0mWnKQ3Q 
