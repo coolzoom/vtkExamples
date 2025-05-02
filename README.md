@@ -25,3 +25,15 @@ https://www.youtube.com/watch?v=ipVzVLlwhzs
 https://www.youtube.com/watch?v=CEoAmOLfaZg 
 # ParametricObjectsDemo
 https://www.youtube.com/watch?v=YaY8A3VrIp4
+# ContoursFromPolyData
+https://www.youtube.com/watch?v=24UiKLaRDEE
+# ImplicitBoolean
+https://www.youtube.com/watch?v=Zez0VQsny_U
+# ShrinkPolyData
+https://www.youtube.com/watch?v=KR5JYifOsY8
+# VectorFieldNonZeroExtraction
+https://www.youtube.com/watch?v=0Vx58cDCzkk
+
+
+
+
