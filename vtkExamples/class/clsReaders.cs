@@ -412,6 +412,87 @@ namespace vtkExamples
             //while(( tmp = actors.GetNextActor()) != null) {
             //}
         }
+        public static void SimplePointsReaderWithScanEffect(RenderWindowControl renderWindowControl1, double zScale = 1.0, int delayMs = 50)
+        {
+            // Path to vtk data must be set as an environment variable
+            // VTK_DATA_ROOT = "C:\VTK\vtkdata-5.8.0"
+            vtkTesting test = vtkTesting.New();
+            string root = test.GetDataRoot();
+            string filePath = System.IO.Path.Combine(root, @"Data\points1.txt");
 
+            vtkSimplePointsReader reader = vtkSimplePointsReader.New();
+            reader.SetFileName(filePath);
+            reader.Update();
+
+            // 获取输出 polydata 和点集合
+            vtkPolyData poly = reader.GetOutput();
+            vtkPoints pts = poly?.GetPoints();
+            long nPoints = (pts != null && pts.GetNumberOfPoints() > 0) ? pts.GetNumberOfPoints() : 0;
+
+            // 创建标量数组（按 Z 高度）
+            vtkFloatArray scalars = vtkFloatArray.New();
+            scalars.SetName("ZHeight");
+            scalars.SetNumberOfComponents(1);
+
+            double minZ = double.MaxValue;
+            double maxZ = double.MinValue;
+            double[] xyz = new double[3];
+
+            // 获取点的范围
+            double[] bounds = poly.GetBounds();
+            double xMin = bounds[0], xMax = bounds[1];
+            double xStep = (xMax - xMin) / 100; // 假设分成100步扫描
+
+            vtkPoints scannedPoints = vtkPoints.New();
+            vtkCellArray scannedVertices = vtkCellArray.New();
+            vtkPolyData scannedPolyData = vtkPolyData.New();
+            scannedPolyData.SetPoints(scannedPoints);
+            scannedPolyData.SetVerts(scannedVertices);
+
+            vtkPolyDataMapper mapper = vtkPolyDataMapper.New();
+            mapper.SetInput(scannedPolyData);
+
+            vtkActor actor = vtkActor.New();
+            actor.SetMapper(mapper);
+            actor.GetProperty().SetPointSize(4);
+            actor.GetProperty().SetRepresentationToPoints();
+
+            vtkRenderWindow renderWindow = renderWindowControl1.RenderWindow;
+            vtkRenderer renderer = renderWindow.GetRenderers().GetFirstRenderer();
+            renderer.SetBackground(0.2, 0.3, 0.4);
+            renderer.AddActor(actor);
+
+            Task.Run(async () =>
+            {
+                for (double xThreshold = xMin; xThreshold <= xMax; xThreshold += xStep)
+                {
+                    for (int i = 0; i < nPoints; i++)
+                    {
+                        xyz = pts.GetPoint(i);
+                        // 修改条件：检查点是否在当前扫描范围内，而不是严格等于 xThreshold
+                        if (xyz[0] >= xThreshold && xyz[0] < xThreshold + xStep)
+                        {
+                            xyz[2] *= zScale; // 调整 Z 轴幅度
+                            scannedPoints.InsertNextPoint(xyz[0], xyz[1], xyz[2]);
+                            scannedVertices.InsertNextCell(1);
+                            scannedVertices.InsertCellPoint(scannedPoints.GetNumberOfPoints() - 1);
+
+                            double z = xyz[2];
+                            scalars.InsertNextValue((float)z);
+                            if (z < minZ) minZ = z;
+                            if (z > maxZ) maxZ = z;
+                        }
+                    }
+
+                    scannedPolyData.GetPointData().SetScalars(scalars);
+                    renderWindowControl1.Invoke((MethodInvoker)(() =>
+                    {
+                        renderWindow.Render();
+                    }));
+
+                    await Task.Delay(delayMs);
+                }
+            });
+        }
     }
 }
