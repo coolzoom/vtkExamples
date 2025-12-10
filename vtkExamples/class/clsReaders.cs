@@ -274,7 +274,7 @@ namespace vtkExamples
         }
 
 
-        public static void SimplePointsReader(RenderWindowControl renderWindowControl1)
+        public static void SimplePointsReader(RenderWindowControl renderWindowControl1, double zScale = 1.0)
         {
             // Path to vtk data must be set as an environment variable
             // VTK_DATA_ROOT = "C:\VTK\vtkdata-5.8.0"
@@ -299,10 +299,13 @@ namespace vtkExamples
             double minZ = double.MaxValue;
             double maxZ = double.MinValue;
             double[] xyz = new double[3];
-
+            //放大系数
+            //var zScale = 5000;
             for (int i = 0; i < nPoints; i++)
             {
                 xyz = pts.GetPoint(i);
+                xyz[2] *= zScale; // 调整 Z 轴幅度
+                pts.SetPoint(i, xyz[0], xyz[1], xyz[2]); // 放大z轴
                 double z = xyz[2];
                 scalars.InsertNextValue((float)z);
                 if (z < minZ) minZ = z;
@@ -355,6 +358,12 @@ namespace vtkExamples
             vtkPointPicker pointPicker = vtkPointPicker.New();
             interactor.SetPicker(pointPicker);
 
+            //// 添加坐标轴
+            //vtkAxesActor axes = vtkAxesActor.New();
+            //axes.SetTotalLength(1.0, 1.0, 1.0); // 设置坐标轴长度
+            //axes.SetShaftTypeToCylinder();
+            //axes.SetCylinderRadius(0.02);
+
             // 创建 ToolTip 控件并添加到窗体
             ToolTip toolTip = new ToolTip();
             renderWindowControl1.Parent.Controls.Add(new Control()); // 确保 ToolTip 有宿主控件
@@ -403,91 +412,6 @@ namespace vtkExamples
             //while(( tmp = actors.GetNextActor()) != null) {
             //}
         }
-        public static void SimplePointsReaderWithAxes(RenderWindowControl renderWindowControl1, double zScale = 1.0)
-        {
-            // Path to vtk data must be set as an environment variable
-            // VTK_DATA_ROOT = "C:\VTK\vtkdata-5.8.0"
-            vtkTesting test = vtkTesting.New();
-            string root = test.GetDataRoot();
-            string filePath = System.IO.Path.Combine(root, @"Data\points1.txt");
 
-            vtkSimplePointsReader reader = vtkSimplePointsReader.New();
-            reader.SetFileName(filePath);
-            reader.Update();
-
-            // 获取输出 polydata 和点集合
-            vtkPolyData poly = reader.GetOutput();
-            vtkPoints pts = poly?.GetPoints();
-            long nPoints = (pts != null && pts.GetNumberOfPoints() > 0) ? pts.GetNumberOfPoints() : 0;
-
-            // 创建标量数组（按 Z 高度）
-            vtkFloatArray scalars = vtkFloatArray.New();
-            scalars.SetName("ZHeight");
-            scalars.SetNumberOfComponents(1);
-
-            double minZ = double.MaxValue;
-            double maxZ = double.MinValue;
-            double[] xyz = new double[3];
-
-            for (int i = 0; i < nPoints; i++)
-            {
-                xyz = pts.GetPoint(i);
-                xyz[2] *= zScale; // 调整 Z 轴幅度
-                pts.SetPoint(i, xyz[0], xyz[1], xyz[2]); // 修正：确保点数据被正确更新
-                double z = xyz[2];
-                scalars.InsertNextValue((float)z);
-                if (z < minZ) minZ = z;
-                if (z > maxZ) maxZ = z;
-            }
-
-            if (nPoints == 0)
-            {
-                // 防护：无点时设置默认范围
-                minZ = 0.0;
-                maxZ = 1.0;
-            }
-
-            // 将标量赋给点数据
-            poly.GetPointData().SetScalars(scalars);
-
-            // 创建 LookupTable，根据 Z 值映射颜色（蓝->绿->黄->红）
-            vtkLookupTable lut = vtkLookupTable.New();
-            lut.SetNumberOfTableValues(256);
-            lut.SetHueRange(0.667, 0.0);
-            lut.SetSaturationRange(1.0, 1.0);
-            lut.SetValueRange(1.0, 1.0);
-            lut.SetTableRange(minZ, maxZ);
-            lut.Build();
-
-            // 可视化
-            vtkPolyDataMapper mapper = vtkPolyDataMapper.New();
-            mapper.SetInputConnection(reader.GetOutputPort());
-            mapper.SetLookupTable(lut);
-            mapper.SetScalarRange(minZ, maxZ);
-            mapper.ScalarVisibilityOn();
-            mapper.UseLookupTableScalarRangeOn();
-
-            vtkActor actor = vtkActor.New();
-            actor.SetMapper(mapper);
-            actor.GetProperty().SetPointSize(4);
-            actor.GetProperty().SetRepresentationToPoints();
-
-            // 添加坐标轴
-            vtkAxesActor axes = vtkAxesActor.New();
-            axes.SetTotalLength(1.0, 1.0, 1.0); // 设置坐标轴长度
-            axes.SetShaftTypeToCylinder();
-            axes.SetCylinderRadius(0.02);
-
-            // 渲染设置
-            vtkRenderWindow renderWindow = renderWindowControl1.RenderWindow;
-            vtkRenderer renderer = renderWindow.GetRenderers().GetFirstRenderer();
-            renderer.SetBackground(0.2, 0.3, 0.4);
-            renderer.AddActor(actor);
-            renderer.AddActor(axes);
-
-            vtkRenderWindowInteractor interactor = renderWindow.GetInteractor();
-            vtkInteractorStyleTrackballCamera style = vtkInteractorStyleTrackballCamera.New();
-            interactor.SetInteractorStyle(style);
-        }
     }
 }
