@@ -202,7 +202,8 @@ namespace vtkExamples
                         clsReaders.ReadSTL(renderWindowControl);
                         break;
                     case eExample.eSimplePointsReader:
-                        clsReaders.SimplePointsReader(renderWindowControl);
+                        //clsReaders.SimplePointsReader(renderWindowControl);
+                        clsReaders.SimplePointsReaderWithAxes(renderWindowControl,5000);
                         break;
                     case eExample.eVRML:
                         clsReaders.VRML(renderWindowControl);
