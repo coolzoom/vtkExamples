@@ -280,7 +280,7 @@ namespace vtkExamples
             // VTK_DATA_ROOT = "C:\VTK\vtkdata-5.8.0"
             vtkTesting test = vtkTesting.New();
             string root = test.GetDataRoot();
-            string filePath = System.IO.Path.Combine(root, @"Data\points.txt");
+            string filePath = System.IO.Path.Combine(root, @"Data\points1.txt");
 
             vtkSimplePointsReader reader = vtkSimplePointsReader.New();
             reader.SetFileName(filePath);

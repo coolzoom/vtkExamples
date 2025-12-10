@@ -154,7 +154,7 @@ namespace vtkExamples
         {
             try
             {
-                eExample   ex = eExample.eWindowedSincPolyDataFilter;
+                eExample   ex = eExample.eSimplePointsReader;
                 switch (ex) {
                     case eExample.eReadPlainText:
                         clsReadPlainText.ReadPlainText(renderWindowControl);
