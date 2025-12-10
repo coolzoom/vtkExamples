@@ -342,15 +342,42 @@ namespace vtkExamples
             actor.GetProperty().SetPointSize(4);
             actor.GetProperty().SetRepresentationToPoints();
 
-            // get a reference to the renderwindow of our renderWindowControl1
+            // 添加鼠标交互器以显示点信息
             vtkRenderWindow renderWindow = renderWindowControl1.RenderWindow;
-            // renderer
             vtkRenderer renderer = renderWindow.GetRenderers().GetFirstRenderer();
-            // set background color
             renderer.SetBackground(0.2, 0.3, 0.4);
-            // add our actor to the renderer
             renderer.AddActor(actor);
-            //renderer.ResetCamera();
+
+            vtkRenderWindowInteractor interactor = renderWindow.GetInteractor();
+            vtkInteractorStyleTrackballCamera style = vtkInteractorStyleTrackballCamera.New();
+            interactor.SetInteractorStyle(style);
+
+            vtkPointPicker pointPicker = vtkPointPicker.New();
+            interactor.SetPicker(pointPicker);
+
+            // 创建 ToolTip 控件并添加到窗体
+            ToolTip toolTip = new ToolTip();
+            renderWindowControl1.Parent.Controls.Add(new Control()); // 确保 ToolTip 有宿主控件
+
+            interactor.MouseMoveEvt += (sender, args) =>
+            {
+                int[] eventPosition = interactor.GetEventPosition();
+                if (pointPicker.Pick(eventPosition[0], eventPosition[1], 0, renderer) != 0)
+                {
+                    double[] pickedPosition = pointPicker.GetPickPosition();
+                    long pointId = pointPicker.GetPointId();
+                    if (pointId >= 0)
+                    {
+                        double zValue = scalars.GetValue(pointId);
+                        string message = $"Point ID: {pointId}, Coordinates: ({pickedPosition[0]:F2}, {pickedPosition[1]:F2}, {pickedPosition[2]:F2}), Z: {zValue:F2}";
+                        Debug.WriteLine(message);
+                        renderWindowControl1.Invoke((MethodInvoker)(() =>
+                        {
+                            toolTip.SetToolTip(renderWindowControl1, message);
+                        }));
+                    }
+                }
+            };
         }
 
         public static void VRML(RenderWindowControl renderWindowControl1)
