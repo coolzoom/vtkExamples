@@ -285,15 +285,70 @@ namespace vtkExamples
             vtkSimplePointsReader reader = vtkSimplePointsReader.New();
             reader.SetFileName(filePath);
             reader.Update();
-            // Visualize
+
+            // 获取输出 polydata 和点集合
+            vtkPolyData poly = reader.GetOutput();
+            vtkPoints pts = poly?.GetPoints();
+            long nPoints = (pts != null && pts.GetNumberOfPoints() > 0) ? pts.GetNumberOfPoints() : 0;
+
+            // 创建标量数组（按 Z 高度）
+            vtkFloatArray scalars = vtkFloatArray.New();
+            scalars.SetName("ZHeight");
+            scalars.SetNumberOfComponents(1);
+
+            double minZ = double.MaxValue;
+            double maxZ = double.MinValue;
+            double[] xyz = new double[3];
+
+            for (int i = 0; i < nPoints; i++)
+            {
+                xyz = pts.GetPoint(i);
+                double z = xyz[2];
+                scalars.InsertNextValue((float)z);
+                if (z < minZ) minZ = z;
+                if (z > maxZ) maxZ = z;
+            }
+
+            if (nPoints == 0)
+            {
+                // 防护：无点时设置默认范围
+                minZ = 0.0;
+                maxZ = 1.0;
+            }
+
+            // 将标量赋给点数据
+            poly.GetPointData().SetScalars(scalars);
+
+            // 创建 LookupTable，根据 Z 值映射颜色（蓝->绿->黄->红）
+            vtkLookupTable lut = vtkLookupTable.New();
+            lut.SetNumberOfTableValues(256);
+            // 使用 hue 从蓝到红（约 0.667 -> 0.0）
+            lut.SetHueRange(0.667, 0.0);
+            lut.SetSaturationRange(1.0, 1.0);
+            lut.SetValueRange(1.0, 1.0);
+            lut.SetTableRange(minZ, maxZ);
+            lut.Build();
+
+            // 可视化
             vtkPolyDataMapper mapper = vtkPolyDataMapper.New();
             mapper.SetInputConnection(reader.GetOutputPort());
+            mapper.SetLookupTable(lut);
+            mapper.SetScalarRange(minZ, maxZ);
+            mapper.ScalarVisibilityOn();
+            mapper.UseLookupTableScalarRangeOn();
+
             vtkActor actor = vtkActor.New();
             actor.SetMapper(mapper);
             actor.GetProperty().SetPointSize(4);
+            actor.GetProperty().SetRepresentationToPoints();
+
+            // get a reference to the renderwindow of our renderWindowControl1
             vtkRenderWindow renderWindow = renderWindowControl1.RenderWindow;
+            // renderer
             vtkRenderer renderer = renderWindow.GetRenderers().GetFirstRenderer();
+            // set background color
             renderer.SetBackground(0.2, 0.3, 0.4);
+            // add our actor to the renderer
             renderer.AddActor(actor);
             //renderer.ResetCamera();
         }
