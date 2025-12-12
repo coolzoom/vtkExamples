@@ -497,11 +497,27 @@ namespace vtkExamples
             renderer.AddActor(actor);
 
             //// 设置相机位置，确保能看到完整的点云
-            //vtkCamera camera = renderer.GetActiveCamera();
-            //camera.SetPosition(xMin + (xMax - xMin) / 2, yMin - (yMax - yMin) * 1.5, zMin + (zMax - zMin) * 2);
-            //camera.SetFocalPoint(xMin + (xMax - xMin) / 2, yMin + (yMax - yMin) / 2, zMin + (zMax - zMin) / 2);
-            //camera.SetViewUp(0, 0, 1);
-            //renderer.ResetCamera();
+            // 设置相机位置，确保能看到完整的点云
+            vtkCamera camera = renderer.GetActiveCamera();
+            
+            // 计算点云中心
+            double centerX = xMin + (xMax - xMin) / 2;
+            double centerY = yMin + (yMax - yMin) / 2;
+            double centerZ = zMin + (zMax - zMin) / 2;
+            
+            // 设置相机位置在点云前方上方，确保能看到完整范围
+            double distance = Math.Max(xMax - xMin, Math.Max(yMax - yMin, zMax - zMin)) * 2;
+            camera.SetPosition(centerX, centerY - distance, centerZ + distance * 0.5);
+            
+            // 设置焦点为点云中心
+            camera.SetFocalPoint(centerX, centerY, centerZ);
+            
+            // 设置视图方向
+            camera.SetViewUp(0, 0, 1);
+            
+            // 重置相机以适应点云范围
+            renderer.ResetCamera();
+            renderer.ResetCameraClippingRange();
 
             // 设置交互器
             vtkRenderWindowInteractor interactor = renderWindow.GetInteractor();
@@ -518,16 +534,33 @@ namespace vtkExamples
                 int totalSteps = 0;
                 int maxPointsPerStep = 0;
                 
-                for (double xThreshold = xMin; xThreshold <= xMax; xThreshold += xStep)
+                // 预计算点云的完整Z范围（用于颜色映射）
+                double fullMinZ = double.MaxValue;
+                double fullMaxZ = double.MinValue;
+                for (int i = 0; i < nPoints; i++)
+                {
+                    double[] point = pts.GetPoint(i);
+                    double z = point[2] * zScale;
+                    if (z < fullMinZ) fullMinZ = z;
+                    if (z > fullMaxZ) fullMaxZ = z;
+                }
+                
+                for (double xThreshold = xMin; xThreshold <= xMax + xStep; xThreshold += xStep)
                 {
                     totalSteps++;
                     int currentStepPoints = 0;
                     
-                    // 处理当前扫描列的所有点
+                    // 重置当前步骤的点云数据
+                    scannedPoints.Reset();
+                    scannedVertices.Reset();
+                    scalars.Reset();
+                    
+                    // 处理所有点，累积显示到当前阈值
                     for (int i = 0; i < nPoints; i++)
                     {
                         xyz = pts.GetPoint(i);
-                        // 累积显示：显示所有x坐标小于等于当前阈值的点（实现从左到右的扫查效果）
+                        
+                        // 累积显示：只显示x坐标小于等于当前阈值的点
                         if (xyz[0] <= xThreshold + xStep)
                         {
                             xyz[2] *= zScale; // 调整 Z 轴幅度
@@ -537,8 +570,6 @@ namespace vtkExamples
 
                             double z = xyz[2];
                             scalars.InsertNextValue((float)z);
-                            if (z < minZ) minZ = z;
-                            if (z > maxZ) maxZ = z;
                             
                             currentStepPoints++;
                         }
@@ -547,11 +578,16 @@ namespace vtkExamples
                     maxPointsPerStep = Math.Max(maxPointsPerStep, currentStepPoints);
                     Console.WriteLine($"步骤 {totalSteps}: xThreshold={xThreshold:F2}, 点数={currentStepPoints}, 累计点数={scannedPoints.GetNumberOfPoints()}");
                     
-                    // 更新标量范围和渲染
+                    // 更新标量范围和渲染 - 使用完整Z范围以保持颜色一致性
+                    scannedPolyData.SetPoints(scannedPoints);
+                    scannedPolyData.SetVerts(scannedVertices);
                     scannedPolyData.GetPointData().SetScalars(scalars);
-                    lut.SetTableRange(minZ, maxZ);
+                    scannedPolyData.Modified();
+                    
+                    // 使用完整Z范围确保颜色映射一致
+                    lut.SetTableRange(fullMinZ, fullMaxZ);
                     lut.Build();
-                    mapper.SetScalarRange(minZ, maxZ);
+                    mapper.SetScalarRange(fullMinZ, fullMaxZ);
                     
                     // 在UI线程中渲染
                     renderWindowControl1.Invoke((MethodInvoker)(() =>
