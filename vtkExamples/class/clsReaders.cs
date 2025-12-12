@@ -443,7 +443,19 @@ namespace vtkExamples
             double xMin = bounds[0], xMax = bounds[1];
             double yMin = bounds[2], yMax = bounds[3];
             double zMin = bounds[4], zMax = bounds[5];
-            double xStep = 10;// (xMax - xMin) / 100; // 分成100步扫描
+            
+            // 添加调试信息
+            Console.WriteLine($"点云范围: xMin={xMin}, xMax={xMax}, yMin={yMin}, yMax={yMax}, zMin={zMin}, zMax={zMax}");
+            
+            // 确保xStep合理，避免因范围过小导致步长为0
+            int numSteps = 100;
+            double xStep = (xMax - xMin) / numSteps;
+            if (xStep <= 0)
+            {
+                xStep = 0.1; // 设置最小步长
+                Console.WriteLine($"自动调整xStep为最小步长: {xStep}");
+            }
+            Console.WriteLine($"扫查参数: numSteps={numSteps}, xStep={xStep}");
 
             // 创建用于扫查显示的点云数据结构
             vtkPoints scannedPoints = vtkPoints.New();
@@ -502,14 +514,21 @@ namespace vtkExamples
             // 开始扫查动画
             Task.Run(async () =>
             {
+                Console.WriteLine($"开始扫查: xMin={xMin}, xMax={xMax}, xStep={xStep}");
+                int totalSteps = 0;
+                int maxPointsPerStep = 0;
+                
                 for (double xThreshold = xMin; xThreshold <= xMax; xThreshold += xStep)
                 {
+                    totalSteps++;
+                    int currentStepPoints = 0;
+                    
                     // 处理当前扫描列的所有点
                     for (int i = 0; i < nPoints; i++)
                     {
                         xyz = pts.GetPoint(i);
-                        // 检查点是否在当前扫描范围内
-                        if (xyz[0] == xThreshold)
+                        // 累积显示：显示所有x坐标小于等于当前阈值的点（实现从左到右的扫查效果）
+                        if (xyz[0] <= xThreshold + xStep)
                         {
                             xyz[2] *= zScale; // 调整 Z 轴幅度
                             scannedPoints.InsertNextPoint(xyz[0], xyz[1], xyz[2]);
@@ -520,9 +539,14 @@ namespace vtkExamples
                             scalars.InsertNextValue((float)z);
                             if (z < minZ) minZ = z;
                             if (z > maxZ) maxZ = z;
+                            
+                            currentStepPoints++;
                         }
                     }
 
+                    maxPointsPerStep = Math.Max(maxPointsPerStep, currentStepPoints);
+                    Console.WriteLine($"步骤 {totalSteps}: xThreshold={xThreshold:F2}, 点数={currentStepPoints}, 累计点数={scannedPoints.GetNumberOfPoints()}");
+                    
                     // 更新标量范围和渲染
                     scannedPolyData.GetPointData().SetScalars(scalars);
                     lut.SetTableRange(minZ, maxZ);
@@ -539,7 +563,7 @@ namespace vtkExamples
                     await Task.Delay(delayMs);
                 }
                 
-                // 扫查完成后输出信息
+                Console.WriteLine($"扫查完成: 总步骤={totalSteps}, 每步最大点数={maxPointsPerStep}");
                 Console.WriteLine("点云扫查动画完成。总共显示点数: " + scannedPoints.GetNumberOfPoints());
             });
         }
