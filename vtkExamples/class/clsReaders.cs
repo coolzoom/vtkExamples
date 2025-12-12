@@ -496,25 +496,108 @@ namespace vtkExamples
             renderer.SetBackground(0.2, 0.3, 0.4);
             renderer.AddActor(actor);
 
-            //// 设置相机位置，确保能看到完整的点云
+            //// 坐标轴和标签
+            //vtkAssembly axesAssembly = vtkAssembly.New();
+
+            //// X轴
+            //vtkLineSource xAxis = vtkLineSource.New();
+            //xAxis.SetPoint1(xMin, yMin, zMin);
+            //xAxis.SetPoint2(xMax, yMin, zMin);
+            //vtkPolyDataMapper xMapper = vtkPolyDataMapper.New();
+            //xMapper.SetInputConnection(xAxis.GetOutputPort());
+            //vtkActor xActor = vtkActor.New();
+            //xActor.SetMapper(xMapper);
+            //xActor.GetProperty().SetColor(1, 0, 0);
+            //xActor.GetProperty().SetLineWidth(2);
+            //axesAssembly.AddPart(xActor);
+
+            //// Y轴
+            //vtkLineSource yAxis = vtkLineSource.New();
+            //yAxis.SetPoint1(xMin, yMin, zMin);
+            //yAxis.SetPoint2(xMin, yMax, zMin);
+            //vtkPolyDataMapper yMapper = vtkPolyDataMapper.New();
+            //yMapper.SetInputConnection(yAxis.GetOutputPort());
+            //vtkActor yActor = vtkActor.New();
+            //yActor.SetMapper(yMapper);
+            //yActor.GetProperty().SetColor(0, 1, 0);
+            //yActor.GetProperty().SetLineWidth(2);
+            //axesAssembly.AddPart(yActor);
+
+            //// Z轴
+            //vtkLineSource zAxis = vtkLineSource.New();
+            //zAxis.SetPoint1(xMin, yMin, zMin);
+            //zAxis.SetPoint2(xMin, yMin, zMax);
+            //vtkPolyDataMapper zMapper = vtkPolyDataMapper.New();
+            //zMapper.SetInputConnection(zAxis.GetOutputPort());
+            //vtkActor zActor = vtkActor.New();
+            //zActor.SetMapper(zMapper);
+            //zActor.GetProperty().SetColor(0, 0, 1);
+            //zActor.GetProperty().SetLineWidth(2);
+            //axesAssembly.AddPart(zActor);
+
+            //// X轴标签
+            //for (double x = Math.Ceiling(xMin); x <= xMax; x += 1.0)
+            //{
+            //    vtkVectorText label = vtkVectorText.New();
+            //    label.SetText($"{x:0}");
+            //    vtkPolyDataMapper labelMapper = vtkPolyDataMapper.New();
+            //    labelMapper.SetInputConnection(label.GetOutputPort());
+            //    vtkFollower labelActor = vtkFollower.New();
+            //    labelActor.SetMapper(labelMapper);
+            //    labelActor.SetScale(0.5, 0.5, 0.5);
+            //    labelActor.SetPosition(x, yMin - (yMax - yMin) * 0.03, zMin - (zMax - zMin) * 0.03);
+            //    labelActor.GetProperty().SetColor(1, 0, 0);
+            //    axesAssembly.AddPart(labelActor);
+            //}
+            //// Y轴标签
+            //for (double y = Math.Ceiling(yMin); y <= yMax; y += 1.0)
+            //{
+            //    vtkVectorText label = vtkVectorText.New();
+            //    label.SetText($"{y:0}");
+            //    vtkPolyDataMapper labelMapper = vtkPolyDataMapper.New();
+            //    labelMapper.SetInputConnection(label.GetOutputPort());
+            //    vtkFollower labelActor = vtkFollower.New();
+            //    labelActor.SetMapper(labelMapper);
+            //    labelActor.SetScale(0.5, 0.5, 0.5);
+            //    labelActor.SetPosition(xMin - (xMax - xMin) * 0.03, y, zMin - (zMax - zMin) * 0.03);
+            //    labelActor.GetProperty().SetColor(0, 1, 0);
+            //    axesAssembly.AddPart(labelActor);
+            //}
+            //// Z轴标签
+            //for (double z = Math.Ceiling(zMin); z <= zMax; z += 1.0)
+            //{
+            //    vtkVectorText label = vtkVectorText.New();
+            //    label.SetText($"{z:0}");
+            //    vtkPolyDataMapper labelMapper = vtkPolyDataMapper.New();
+            //    labelMapper.SetInputConnection(label.GetOutputPort());
+            //    vtkFollower labelActor = vtkFollower.New();
+            //    labelActor.SetMapper(labelMapper);
+            //    labelActor.SetScale(0.5, 0.5, 0.5);
+            //    labelActor.SetPosition(xMin - (xMax - xMin) * 0.03, yMin - (yMax - yMin) * 0.03, z);
+            //    labelActor.GetProperty().SetColor(0, 0, 1);
+            //    axesAssembly.AddPart(labelActor);
+            //}
+            ////严重影响速度，禁用
+            //renderer.AddActor(axesAssembly);
+
             // 设置相机位置，确保能看到完整的点云
             vtkCamera camera = renderer.GetActiveCamera();
-            
+
             // 计算点云中心
             double centerX = xMin + (xMax - xMin) / 2;
             double centerY = yMin + (yMax - yMin) / 2;
             double centerZ = zMin + (zMax - zMin) / 2;
-            
+
             // 设置相机位置在点云前方上方，确保能看到完整范围
             double distance = Math.Max(xMax - xMin, Math.Max(yMax - yMin, zMax - zMin)) * 2;
             camera.SetPosition(centerX, centerY - distance, centerZ + distance * 0.5);
-            
+
             // 设置焦点为点云中心
             camera.SetFocalPoint(centerX, centerY, centerZ);
-            
+
             // 设置视图方向
             camera.SetViewUp(0, 0, 1);
-            
+
             // 重置相机以适应点云范围
             renderer.ResetCamera();
             renderer.ResetCameraClippingRange();
