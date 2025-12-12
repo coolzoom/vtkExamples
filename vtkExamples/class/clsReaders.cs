@@ -441,36 +441,75 @@ namespace vtkExamples
             // 获取点的范围
             double[] bounds = poly.GetBounds();
             double xMin = bounds[0], xMax = bounds[1];
-            double xStep = (xMax - xMin) / 100; // 假设分成100步扫描
+            double yMin = bounds[2], yMax = bounds[3];
+            double zMin = bounds[4], zMax = bounds[5];
+            double xStep = 10;// (xMax - xMin) / 100; // 分成100步扫描
 
+            // 创建用于扫查显示的点云数据结构
             vtkPoints scannedPoints = vtkPoints.New();
             vtkCellArray scannedVertices = vtkCellArray.New();
             vtkPolyData scannedPolyData = vtkPolyData.New();
             scannedPolyData.SetPoints(scannedPoints);
             scannedPolyData.SetVerts(scannedVertices);
 
+            // 创建 LookupTable，根据 Z 值映射颜色（蓝->绿->黄->红）
+            vtkLookupTable lut = vtkLookupTable.New();
+            lut.SetNumberOfTableValues(256);
+            // 使用 hue 从蓝到红（约 0.667 -> 0.0）
+            lut.SetHueRange(0.667, 0.0);
+            lut.SetSaturationRange(1.0, 1.0);
+            lut.SetValueRange(1.0, 1.0);
+            lut.Build();
+
+            // 可视化设置
             vtkPolyDataMapper mapper = vtkPolyDataMapper.New();
             mapper.SetInput(scannedPolyData);
+            mapper.SetLookupTable(lut);
+            mapper.ScalarVisibilityOn();
+            mapper.UseLookupTableScalarRangeOn();
 
             vtkActor actor = vtkActor.New();
             actor.SetMapper(mapper);
             actor.GetProperty().SetPointSize(4);
             actor.GetProperty().SetRepresentationToPoints();
 
+            // 获取或创建渲染窗口和渲染器
             vtkRenderWindow renderWindow = renderWindowControl1.RenderWindow;
             vtkRenderer renderer = renderWindow.GetRenderers().GetFirstRenderer();
+            if (renderer == null)
+            {
+                renderer = vtkRenderer.New();
+                renderWindow.AddRenderer(renderer);
+            }
             renderer.SetBackground(0.2, 0.3, 0.4);
             renderer.AddActor(actor);
 
+            //// 设置相机位置，确保能看到完整的点云
+            //vtkCamera camera = renderer.GetActiveCamera();
+            //camera.SetPosition(xMin + (xMax - xMin) / 2, yMin - (yMax - yMin) * 1.5, zMin + (zMax - zMin) * 2);
+            //camera.SetFocalPoint(xMin + (xMax - xMin) / 2, yMin + (yMax - yMin) / 2, zMin + (zMax - zMin) / 2);
+            //camera.SetViewUp(0, 0, 1);
+            //renderer.ResetCamera();
+
+            // 设置交互器
+            vtkRenderWindowInteractor interactor = renderWindow.GetInteractor();
+            if (interactor != null)
+            {
+                vtkInteractorStyleTrackballCamera style = vtkInteractorStyleTrackballCamera.New();
+                interactor.SetInteractorStyle(style);
+            }
+
+            // 开始扫查动画
             Task.Run(async () =>
             {
                 for (double xThreshold = xMin; xThreshold <= xMax; xThreshold += xStep)
                 {
+                    // 处理当前扫描列的所有点
                     for (int i = 0; i < nPoints; i++)
                     {
                         xyz = pts.GetPoint(i);
-                        // 修改条件：检查点是否在当前扫描范围内，而不是严格等于 xThreshold
-                        if (xyz[0] >= xThreshold && xyz[0] < xThreshold + xStep)
+                        // 检查点是否在当前扫描范围内
+                        if (xyz[0] == xThreshold)
                         {
                             xyz[2] *= zScale; // 调整 Z 轴幅度
                             scannedPoints.InsertNextPoint(xyz[0], xyz[1], xyz[2]);
@@ -484,14 +523,24 @@ namespace vtkExamples
                         }
                     }
 
+                    // 更新标量范围和渲染
                     scannedPolyData.GetPointData().SetScalars(scalars);
+                    lut.SetTableRange(minZ, maxZ);
+                    lut.Build();
+                    mapper.SetScalarRange(minZ, maxZ);
+                    
+                    // 在UI线程中渲染
                     renderWindowControl1.Invoke((MethodInvoker)(() =>
                     {
                         renderWindow.Render();
                     }));
 
+                    // 控制扫查速度
                     await Task.Delay(delayMs);
                 }
+                
+                // 扫查完成后输出信息
+                Console.WriteLine("点云扫查动画完成。总共显示点数: " + scannedPoints.GetNumberOfPoints());
             });
         }
     }

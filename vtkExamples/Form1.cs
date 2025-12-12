@@ -203,7 +203,7 @@ namespace vtkExamples
                         break;
                     case eExample.eSimplePointsReader:
                         //clsReaders.SimplePointsReader(renderWindowControl,5000);//ok,show all points
-                        clsReaders.SimplePointsReaderWithScanEffect(renderWindowControl, 5000, 50);//wip, show points with scan effect
+                        clsReaders.SimplePointsReaderWithScanEffect(renderWindowControl, 5000, 1);//wip, show points with scan effect
                         break;
                     case eExample.eVRML:
                         clsReaders.VRML(renderWindowControl);
